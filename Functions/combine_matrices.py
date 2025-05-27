@@ -1,6 +1,6 @@
 import numpy as np
 
-# PyWavelet approah.
+# PyWavelet way.
 def combine_matrices(cA, cH, cV, cD):
     top_row = np.hstack((cA, cH))
     bottom_row = np.hstack((cV, cD))
