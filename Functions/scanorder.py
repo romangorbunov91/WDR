@@ -1,5 +1,5 @@
-# version 0.1 by romangorbunov91
-# 23-Jul-2025
+# version 0.2 by romangorbunov91
+# 24-Jul-2025
 import numpy as np
 
 def zigzag_order(Nrow, Ncol, LH_to_RL):
@@ -45,11 +45,55 @@ def zigzag_order(Nrow, Ncol, LH_to_RL):
         s[n,m] = counter
     return s
 
-def horizont_order(Nrow, Ncol, L_to_R):
+def horizont_order(Nrow, Ncol, LEFT_to_RIGHT, BOT_to_TOP):
+    s = np.zeros((Nrow, Ncol), dtype=int)
+     
+    if LEFT_to_RIGHT:
+        m = 0
+    else:
+        m = Ncol - 1
+     
+    if BOT_to_TOP:
+        n = Nrow - 1
+    else:
+        n = 0
+      
+    counter = 1
+    s[n,m] = counter
+    
+    while counter < Nrow*Ncol:
+        
+        if LEFT_to_RIGHT:
+            if m == (Ncol-1):
+                if BOT_to_TOP:
+                    n -= 1
+                else:
+                    n += 1
+                LEFT_to_RIGHT = False
+            else:
+                m += 1
+        else:
+            if m == 0:
+                if BOT_to_TOP:
+                    n -= 1
+                else:
+                    n += 1
+                LEFT_to_RIGHT = True
+            else:
+                m -= 1
+        counter += 1
+        s[n,m] = counter
+    return s
+
+def vertical_order(Nrow, Ncol, BOT_to_TOP, LEFT_to_RIGHT):
     s = np.zeros((Nrow, Ncol), dtype=int)
     
-    n = Nrow - 1
-    if L_to_R:
+    if BOT_to_TOP:
+        n = Nrow - 1
+    else:
+        n = 0
+        
+    if LEFT_to_RIGHT:
         m = 0
     else:
         m = Ncol - 1
@@ -58,20 +102,26 @@ def horizont_order(Nrow, Ncol, L_to_R):
     s[n,m] = counter
     
     while counter < Nrow*Ncol:
-        if L_to_R:
-            m += 1
+        
+        if BOT_to_TOP:
+            if n == 0:
+                if LEFT_to_RIGHT:
+                    m += 1
+                else:
+                    m -= 1
+                BOT_to_TOP = False
+            else:
+                n -= 1
         else:
-            m -= 1
-        
-        if (m >= (Ncol-1)) or (m <= 0):
-            n -= 1
-            L_to_R ^= True  # XOR with True flips the value
-        
-        if n < 0:
-            raise ValueError("Roman: Index exceeds number of rows")
+            if n == (Nrow-1):
+                if LEFT_to_RIGHT:
+                    m += 1
+                else:
+                    m -= 1
+                BOT_to_TOP = True   
+            else:
+                n += 1
         
         counter += 1
         s[n,m] = counter
     return s
-
-#def vertical_order(Nrow, Ncol, LH_to_RL):
