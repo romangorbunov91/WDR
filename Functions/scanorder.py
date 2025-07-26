@@ -1,17 +1,17 @@
-# version 0.2 by romangorbunov91
-# 24-Jul-2025
+# version 0.3 by romangorbunov91
+# 26-Jul-2025
 import numpy as np
 
-def zigzag_order(Nrow, Ncol, LH_to_RL):
+def zigzag_order(Nrow, Ncol, LH_to_RL, init_value):
     s = np.zeros((Nrow, Ncol), dtype=int)
     
     n = Nrow - 1
     m = 0
     
-    counter = 1
+    counter = init_value
     s[n,m] = counter
 
-    while counter < Nrow*Ncol:
+    while (counter - init_value) < (Nrow*Ncol - 1):
         if LH_to_RL:
             n += 1
             m += 1
@@ -45,7 +45,7 @@ def zigzag_order(Nrow, Ncol, LH_to_RL):
         s[n,m] = counter
     return s
 
-def horizont_order(Nrow, Ncol, LEFT_to_RIGHT, BOT_to_TOP):
+def horizont_order(Nrow, Ncol, LEFT_to_RIGHT, BOT_to_TOP, init_value):
     s = np.zeros((Nrow, Ncol), dtype=int)
      
     if LEFT_to_RIGHT:
@@ -58,10 +58,10 @@ def horizont_order(Nrow, Ncol, LEFT_to_RIGHT, BOT_to_TOP):
     else:
         n = 0
       
-    counter = 1
+    counter = init_value
     s[n,m] = counter
     
-    while counter < Nrow*Ncol:
+    while (counter - init_value) < (Nrow*Ncol - 1):
         
         if LEFT_to_RIGHT:
             if m == (Ncol-1):
@@ -85,7 +85,7 @@ def horizont_order(Nrow, Ncol, LEFT_to_RIGHT, BOT_to_TOP):
         s[n,m] = counter
     return s
 
-def vertical_order(Nrow, Ncol, BOT_to_TOP, LEFT_to_RIGHT):
+def vertical_order(Nrow, Ncol, BOT_to_TOP, LEFT_to_RIGHT, init_value):
     s = np.zeros((Nrow, Ncol), dtype=int)
     
     if BOT_to_TOP:
@@ -98,10 +98,10 @@ def vertical_order(Nrow, Ncol, BOT_to_TOP, LEFT_to_RIGHT):
     else:
         m = Ncol - 1
     
-    counter = 1
+    counter = init_value
     s[n,m] = counter
     
-    while counter < Nrow*Ncol:
+    while (counter - init_value) < (Nrow*Ncol - 1):
         
         if BOT_to_TOP:
             if n == 0:
